@@ -1,0 +1,35 @@
+* {
+    background: #fff;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    padding: 30px;
+    text-align: center;
+}
+
+#countLetterArea {
+    padding: 5px;
+}
+
+input[type=button] {
+    border-radius: 10px;
+    height: 30px;
+    padding: 5px 10px;
+    background: #7cf;
+    color: #333;
+    display: block;
+    margin: 10px auto;
+}
+
+input[type=button]:hover {
+    cursor: pointer;
+    background: #5ad;
+    color: #eee;
+}
+
+#selecterText {
+    padding: 5px;
+    border-radius: 5px;
+}

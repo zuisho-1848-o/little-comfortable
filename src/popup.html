@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>文字数カウント</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <section id="selectFunction">
+        <h1>機能を選択</h1>
+        <input type="button" value="文字数カウント" id="funcCountLetters">
+        <input type="button" value="セレクター検索" id="funcsearchSelecter">
+        <input type="button" value="文字数カウント" id="funcShareLink">
+    </section>
+
+    <section id="countLetters" style="display: none;">
+        <h1>文字数をカウント</h1>
+        <p>カウントしたい文字列を入力してください。</p>
+        <textarea name="countLetters" id="countLetterArea" cols="30" rows="10"></textarea>
+        <input type="button" value="文字数カウント" id="countLetterBtn">
+        <p id="countResult"></p>
+        <input type="button" value="最初へ" class="backToTop">
+    </section>
+
+    <section id="searchSelecter" style="display: none;">
+        <h1>セレクターで検索</h1>
+        <p>開いているサイト内で検索したいCSSセレクターを入力してください。</p>
+        <input type="text" name="searchSelecter" id="selecterText">
+        <input type="button" value="セレクター検索" id="countBtn">
+        <input type="button" value="最初へ" class="backToTop">
+    </section>
+
+    <section id="shareLink" style="display: none;">
+        <h1>リンクをシェア</h1>
+        <p>リンクをシェアしたい方式を選択してください。</p>
+        <input type="button" value="リンクのみ" id="onlyLink">
+        <input type="button" value="[タイトル](リンク)" id="markdown">
+        <input type="button" value="「タイトル」（リンク）" id="japaneaseStyle">
+        <input type="button" value="タイトル（改行）リンク" id="twoLine">
+        <input type="button" value="最初へ" class="backToTop">
+    </section>
+
+    
+
+    <script src="main.js"></script>
+</body>
+</html>
