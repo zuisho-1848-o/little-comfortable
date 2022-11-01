@@ -29,6 +29,16 @@ input[type=button]:hover {
     color: #eee;
 }
 
+input[type=button].backToTop {
+    background: #eee;
+    color: #38d;
+}
+
+input[type=button].backToTop:hover {
+    background: #aaa;
+    color: #adf;
+}
+
 #selecterText {
     padding: 5px;
     border-radius: 5px;

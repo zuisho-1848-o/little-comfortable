@@ -12,7 +12,7 @@
         <h1>機能を選択</h1>
         <input type="button" value="文字数カウント" id="funcCountLetters">
         <input type="button" value="セレクター検索" id="funcsearchSelecter">
-        <input type="button" value="文字数カウント" id="funcShareLink">
+        <input type="button" value="リンクシェア" id="funcShareLink">
     </section>
 
     <section id="countLetters" style="display: none;">
@@ -28,7 +28,8 @@
         <h1>セレクターで検索</h1>
         <p>開いているサイト内で検索したいCSSセレクターを入力してください。</p>
         <input type="text" name="searchSelecter" id="selecterText">
-        <input type="button" value="セレクター検索" id="countBtn">
+        <input type="button" value="セレクター検索" id="countSelecterBtn">
+        <p id="selecterCountResult"></p>
         <input type="button" value="最初へ" class="backToTop">
     </section>
 
@@ -37,8 +38,10 @@
         <p>リンクをシェアしたい方式を選択してください。</p>
         <input type="button" value="リンクのみ" id="onlyLink">
         <input type="button" value="[タイトル](リンク)" id="markdown">
-        <input type="button" value="「タイトル」（リンク）" id="japaneaseStyle">
+        <input type="button" value="「タイトル」（リンク）" id="japaneseStyle">
         <input type="button" value="タイトル（改行）リンク" id="twoLine">
+        <b id="toBeSharedLink"></b><br>
+        <p id="copyLinkResult"></p>
         <input type="button" value="最初へ" class="backToTop">
     </section>
 

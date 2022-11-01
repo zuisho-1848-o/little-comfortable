@@ -1,3 +1,15 @@
+// popup だと少し挙動が異なる
+// const  getCurrentTab = async () => {
+//     let queryOptions = {
+//         active: true,
+//         lastFocusedWindow: true
+//     };
+//     // `tab` will either be a `tabs.Tab` instance or `undefined`.
+//     let [tab] = await chrome.tabs.query(queryOptions);
+//     return tab;
+// }
+
+
 // section
 const sections = [...document.querySelectorAll("section")];
 const selectFunction = document.getElementById("selectFunction");
@@ -7,15 +19,17 @@ const countLetters = document.getElementById("countLetters");
 
 
 // selectFunction 関連
-const funcShareLink = document.getElementById("funcShareLink");
-const funcSearchSelecter = document.getElementById("funcsearchSelecter");
 const funcCountLetters = document.getElementById("funcCountLetters");
+const funcSearchSelecter = document.getElementById("funcsearchSelecter");
+const funcShareLink = document.getElementById("funcShareLink");
+
+
 
 
 // section 移動
-funcShareLink.addEventListener("click", (e) => {
+funcCountLetters.addEventListener("click", (e) => {
     sections.forEach(elem => elem.style.display = "none");
-    shareLink.style.display = "block";
+    countLetters.style.display = "block";
 })
 
 funcSearchSelecter.addEventListener("click", (e) => {
@@ -23,10 +37,13 @@ funcSearchSelecter.addEventListener("click", (e) => {
     searchSelecter.style.display = "block";
 })
 
-funcCountLetters.addEventListener("click", (e) => {
+
+funcShareLink.addEventListener("click", (e) => {
     sections.forEach(elem => elem.style.display = "none");
-    countLetters.style.display = "block";
+    shareLink.style.display = "block";
 })
+
+
 
 const backToTops = [...document.getElementsByClassName("backToTop")];
 backToTops.forEach(btn => {
@@ -35,9 +52,6 @@ backToTops.forEach(btn => {
         selectFunction.style.display = "block";
     })
 });
-
-
-
 
 
 
@@ -53,3 +67,116 @@ countLetterBtn.addEventListener("click", (e) => {
     countResult.innerHTML = `${strLen}文字<br>
 改行・スペースなし：${strEscapeLen}文字`;
 })
+
+
+
+
+// searchSelecter 関連
+const selecterText = document.getElementById("selecterText");
+const countSelecterBtn = document.getElementById("countSelecterBtn");
+const selecterCountResult = document.getElementById("selecterCountResult");
+
+const countCSSSeletcerAll = (query) => {
+    return document.querySelectorAll(query).length;
+}
+
+const openNewTab = (url) => {
+    chrome.tabs.create({url});
+}
+
+document.addEventListener("click", (e) => {
+    // alert(e.target.id);
+    if(e.target.id == "goToNewTab") {
+        openNewTab(e.target.innerText);
+    }
+})
+
+countSelecterBtn.addEventListener("click", async (e) => {
+    const currentTabs = await chrome.tabs.query({active: true});
+    const currentTab = currentTabs[0];
+
+    const query = selecterText.value || "";
+
+    chrome.scripting.executeScript(
+        {
+            target: {tabId: currentTab.id},
+            func: countCSSSeletcerAll,
+            args: [query]
+        },
+        (injectionResults) => { selecterCountResult.innerHTML = `${query} の要素は ${injectionResults?.[0]?.result || 0} 件あります。<br>pageのソースは<br> <a href="#" id="goToNewTab">view-source:${currentTab.url}</a>` }
+    );
+})
+
+
+
+// shareLink 関連
+const onlyLink = document.getElementById("onlyLink");
+const markdown = document.getElementById("markdown");
+const japaneseStyle = document.getElementById("japaneseStyle");
+const twoLine = document.getElementById("twoLine");
+const copyLinkResult = document.getElementById("copyLinkResult");
+const toBeSharedLink = document.getElementById("toBeSharedLink");
+
+const getURLAndTitle = () => {
+    return [document.URL, document.title];
+}
+
+const copyToClipBoard = async (type) => {
+    let text = "";
+    const currentTabs = await chrome.tabs.query({active: true});
+    const currentTab = currentTabs[0];
+    const [url, title] = (await chrome.scripting.executeScript(
+        {
+            target: {tabId: currentTab.id},
+            func: getURLAndTitle,
+        }
+    ))[0].result;
+
+    // alert(url);
+    // alert(title);
+
+    switch(type) {
+        case "onlyLink":
+            text = url;
+            break
+        case "markdown":
+            text = `[${title}](${url})`;
+            break
+        case "japaneseStyle":
+            text = `「${title}」（${url}）`;
+            break
+        case "twoLine":
+            text = `${title}\n${url}`;
+            break
+    }
+
+    toBeSharedLink.innerText = text;
+    // toBeSharedLink.selectionStart = 0;
+    // toBeSharedLink.selectionEnd = text.length - 1;
+    // toBeSharedLink.focus();
+
+    navigator.clipboard.write(text).then(
+        () => copyLinkResult.innerHTML = `をクリップボードにコピーしました。`,
+        (err) => {
+            // alert(err);
+            copyLinkResult.innerHTML = `をクリップボードにコピーできませんでした。<br>ご自身でコピーしてお使いください。`
+        }
+    )
+}
+
+onlyLink.addEventListener("click", (e) => {
+    copyToClipBoard("onlyLink");
+})
+markdown.addEventListener("click", (e) => {
+    copyToClipBoard("markdown");
+})
+japaneseStyle.addEventListener("click", (e) => {
+    copyToClipBoard("japaneseStyle");
+})
+twoLine.addEventListener("click", (e) => {
+    copyToClipBoard("twoLine");
+})
+
+
+
+
