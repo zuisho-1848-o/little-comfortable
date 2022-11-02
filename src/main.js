@@ -151,15 +151,15 @@ const copyToClipBoard = async (type) => {
     }
 
     toBeSharedLink.innerText = text;
-    // toBeSharedLink.selectionStart = 0;
-    // toBeSharedLink.selectionEnd = text.length - 1;
-    // toBeSharedLink.focus();
+    const range = document.createRange();
+    range.selectNodeContents(toBeSharedLink);
+    window.getSelection().addRange(range);
 
     navigator.clipboard.write(text).then(
         () => copyLinkResult.innerHTML = `をクリップボードにコピーしました。`,
         (err) => {
             // alert(err);
-            copyLinkResult.innerHTML = `をクリップボードにコピーできませんでした。<br>ご自身でコピーしてお使いください。`
+            copyLinkResult.innerHTML = `をクリップボードにコピーできませんでした。<br>ショートカットでコピーしてお使いください。`
         }
     )
 }

@@ -1,7 +1,7 @@
 {
 	"name": "little-comfortable",
 	"manifest_version": 3,
-	"version": "0.2.0",
+	"version": "0.2.1",
 	"permissions": ["activeTab","scripting", "tabs"],
 	"background": {
 		"service_worker": "src/app.js"
